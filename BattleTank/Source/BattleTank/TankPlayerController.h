@@ -15,7 +15,8 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
-	AATank* GetControlledTank() const;
+	AATank* GetControlledTank() const; // may return a null pointer
 	
+	virtual void BeginPlay() override;
 	
 };

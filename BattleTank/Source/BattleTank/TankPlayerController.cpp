@@ -7,5 +7,21 @@
 
 AATank* ATankPlayerController::GetControlledTank() const
 {
-	return Cast<AATank>(GetPawn());
+	AATank* ControlledTank = nullptr;
+	
+	APawn* ControlledPawn = GetPawn();
+	if (!ControlledPawn) {return ControlledTank;}
+
+	ControlledTank = Cast<AATank>(ControlledPawn);
+	if (!ControlledTank) { return ControlledTank; }
+		
+	return ControlledTank;
+}
+
+void ATankPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	
+
+	AATank* ControlledTank = GetControlledTank();
 }
