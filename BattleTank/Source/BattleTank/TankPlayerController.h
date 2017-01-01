@@ -16,7 +16,10 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 	
 public:
 	AATank* GetControlledTank() const; // may return a null pointer
+
+	void AimTowardsCrosshair();
 	
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 	
 };

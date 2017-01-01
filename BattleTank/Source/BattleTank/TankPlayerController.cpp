@@ -18,10 +18,27 @@ AATank* ATankPlayerController::GetControlledTank() const
 	return ControlledTank;
 }
 
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	if (!GetControlledTank()) { return;}
+
+
+	
+	return;
+}
+
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	
 
 	AATank* ControlledTank = GetControlledTank();
+}
+
+void ATankPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	AimTowardsCrosshair();
+
 }
