@@ -25,7 +25,8 @@ private:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-
+	UPROPERTY(EditAnywhere)
+	int32 AimDistance = 1000000;
 	
 	UPROPERTY(EditAnywhere)
 	float CrossHairXLocation = 0.5f;

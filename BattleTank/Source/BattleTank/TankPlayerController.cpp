@@ -60,6 +60,23 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 	{
 		/*UE_LOG(LogTemp, Warning, TEXT("World Location: %s  and WorldDirection: %s"), 
 				*WorldLocation.ToString(), *WorldDirection.ToString());*/
+
+		/// do the line trace
+		FHitResult HitResult;
+		auto StartLocation = PlayerCameraManager->GetCameraLocation();
+		auto LineTraceEnd = StartLocation + (WorldDirection * AimDistance);
+		if (GetWorld()->LineTraceSingleByChannel(HitResult, WorldLocation,
+			LineTraceEnd, ECollisionChannel::ECC_Visibility))
+		{
+			HitLocation = HitResult.Location;
+			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+			return true;
+		}
+		HitLocation = FVector(0);
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		return false;
+
+
 	}
 
 	
