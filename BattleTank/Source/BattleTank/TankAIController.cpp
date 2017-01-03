@@ -6,6 +6,20 @@
 
 
 
+void ATankAIController::Tick(float DeltaSeconds) 
+{
+	Super::Tick(DeltaSeconds);
+
+
+	auto TargetTankLocation = GetPlayerTank()->GetActorLocation();
+
+	GetControlledTank()->AimAt(TargetTankLocation);
+
+	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), 
+		*GetName(), *TargetTankLocation.ToString());
+
+}
+
 AATank* ATankAIController::GetControlledTank()
 {
 	return Cast<AATank>(GetPawn());

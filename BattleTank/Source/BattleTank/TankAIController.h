@@ -19,6 +19,8 @@ private:
 
 	virtual void BeginPlay() override;
 
+	virtual void Tick(float DeltaSeconds) override;
+
 	AATank* GetControlledTank();
 
 	AATank* GetPlayerTank() const;  // may return a null pointer
