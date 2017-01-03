@@ -17,22 +17,23 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 private:
 	AATank* GetControlledTank() const; // may return a null pointer
 
-	void AimTowardsCrosshair();
-
-	/// return an OUT parameter, true if hit landscape
-	bool GetSightRayHitLocation(FVector& HitLocation) const;
+	void AimTowardsCrosshair();	
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 
-	UPROPERTY(EditAnywhere)
-	int32 AimDistance = 1000000;
-	
-	UPROPERTY(EditAnywhere)
-	float CrossHairXLocation = 0.5f;
+	/// return an OUT parameter, true if hit landscape
+	bool GetSightRayHitLocation(FVector& HitLocation) const;
 
 	UPROPERTY(EditAnywhere)
-	float CrossHairYLocation = 0.33333f;
+		int32 AimDistance = 1000000;
+
+	UPROPERTY(EditAnywhere)
+		float CrossHairXLocation = 0.5f;
+
+	UPROPERTY(EditAnywhere)
+		float CrossHairYLocation = 0.33333f;
+	
 
 	
 };

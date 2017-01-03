@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
 #include "ATank.generated.h"
 
@@ -13,6 +14,14 @@ class BATTLETANK_API AATank : public APawn
 public:
 
 	void AimAt(FVector HitLocation) const;
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
+
+protected:
+	UTankAimingComponent* TankAimingComponent = nullptr;
+
 
 private:
 
