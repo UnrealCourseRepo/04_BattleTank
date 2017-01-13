@@ -42,7 +42,7 @@ void AATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void AATank::AimAt(FVector HitLocation) const
 {
-	TankAimingComponent->AimAt(HitLocation);
+	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 
 	/*UE_LOG(LogTemp, Warning, TEXT("AimAt(HitLocation) called...."));
 	auto OurTankName = GetName();

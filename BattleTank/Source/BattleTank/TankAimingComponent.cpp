@@ -40,16 +40,42 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 	// ...
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation) const
+void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("AimAt(HitLocation) called...."));
-	auto OurTankName = GetOwner()->GetName();
-
+	UE_LOG(LogTemp, Warning, TEXT("Firing at... %f"), LaunchSpeed);
+	
 	if (!Barrel) { return; }
-	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s"), *OurTankName,
-		*HitLocation.ToString(), *BarrelLocation);
+	
+	FVector OutLaunchVelocity = FVector(0);
+	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileEnd"));
+	float CollisionRadius = 100.f;
+	FCollisionResponseParams Params(ECollisionResponse::ECR_Block);
+	TArray<AActor*> ActorsToIgnore;
+	ActorsToIgnore.Emplace(GetOwner());
 
-		return;
+	
+	
+	UGameplayStatics::SuggestProjectileVelocity
+	(
+		this,
+		OutLaunchVelocity,
+		StartLocation,
+		HitLocation,
+		LaunchSpeed,
+		false,
+		CollisionRadius,
+		0,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		Params,
+		ActorsToIgnore,
+		true
+	);
+
+	auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+
+	UE_LOG(LogTemp, Warning, TEXT("Suggested Launch Velocity: %s"), *OutLaunchVelocity.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString());
+
+	return;
 }
 
