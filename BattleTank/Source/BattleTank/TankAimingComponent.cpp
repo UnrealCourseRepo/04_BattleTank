@@ -20,25 +20,7 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet
 	Barrel = BarrelToSet;
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
 
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
-{
-	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
-
-
-
-	// ...
-}
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const
 {
@@ -48,34 +30,47 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const
 	
 	FVector OutLaunchVelocity = FVector(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileEnd"));
-	float CollisionRadius = 100.f;
+	float CollisionRadius = 0.001f;
 	FCollisionResponseParams Params(ECollisionResponse::ECR_Block);
 	TArray<AActor*> ActorsToIgnore;
 	ActorsToIgnore.Emplace(GetOwner());
 
 	
-	
-	UGameplayStatics::SuggestProjectileVelocity
-	(
-		this,
-		OutLaunchVelocity,
-		StartLocation,
-		HitLocation,
-		LaunchSpeed,
-		false,
-		CollisionRadius,
-		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace,
-		Params,
-		ActorsToIgnore,
-		true
-	);
+	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity
+			(
+				this,
+				OutLaunchVelocity,
+				StartLocation,
+				HitLocation,
+				LaunchSpeed,
+				ESuggestProjVelocityTraceOption::DoNotTrace
+			);
+	if (bHaveAimSolution)
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		
+		MoveBarrel(AimDirection);
 
-	auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-
-	UE_LOG(LogTemp, Warning, TEXT("Suggested Launch Velocity: %s"), *OutLaunchVelocity.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("Suggested Launch Velocity: %s"), *OutLaunchVelocity.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString());
+	}	
 
 	return;
 }
 
+void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
+{
+	
+	// Set the barrel mesh's rotation to that obtained
+	if(!Barrel)
+	{
+		return;
+	}
+
+	//  TODO:  Barrel->SetRelativeRotation(AimRotator.Pitch);
+	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotation;
+
+	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
+}
