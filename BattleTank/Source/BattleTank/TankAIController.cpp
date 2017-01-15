@@ -1,7 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BattleTank.h"
+
 #include "TankAIController.h"
+
 
 
 
@@ -15,8 +17,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 
 	GetControlledTank()->AimAt(TargetTankLocation);
 
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), 
-		*GetName(), *TargetTankLocation.ToString());
+	
 
 }
 
@@ -49,5 +50,5 @@ void ATankAIController::BeginPlay()
 		return;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Player Tank found: %s"), *PlayerTank->GetName())
+	
 }

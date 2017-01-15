@@ -4,7 +4,7 @@
 #include "ATank.h"
 
 
-void AATank::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void AATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	TankAimingComponent->SetBarrelReference(BarrelToSet);
 }

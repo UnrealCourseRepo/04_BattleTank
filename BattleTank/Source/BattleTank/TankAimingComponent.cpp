@@ -2,6 +2,8 @@
 
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
+#include "TankBarrel.h"
+
 
 
 // Sets default values for this component's properties
@@ -15,7 +17,7 @@ UTankAimingComponent::UTankAimingComponent()
 }
 
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -24,7 +26,7 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent * BarrelToSet
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("Firing at... %f"), LaunchSpeed);
+	
 	
 	if (!Barrel) { return; }
 	
@@ -51,8 +53,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed) const
 		
 		MoveBarrel(AimDirection);
 
-			UE_LOG(LogTemp, Warning, TEXT("Suggested Launch Velocity: %s"), *OutLaunchVelocity.ToString());
-			UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString());
+			
 	}	
 
 	return;
@@ -72,5 +73,7 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
 
-	UE_LOG(LogTemp, Warning, TEXT("AimAsRotator: %s"), *AimAsRotator.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("DeltaRotator: %s"), *DeltaRotator.ToString());
+
+	Barrel->Elevate(5);
 }
