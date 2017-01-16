@@ -3,6 +3,7 @@
 #include "BattleTank.h"
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "Turret.h"
 
 
 
@@ -22,7 +23,10 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel * BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
-
+void UTankAimingComponent::SetTurretReference(UTurret* TurretToSet)
+{
+	Turret = TurretToSet;
+}
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
@@ -32,7 +36,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	
 	FVector OutLaunchVelocity = FVector(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("ProjectileEnd"));
-	float CollisionRadius = 0.001f;
+	FVector EndLocation = StartLocation + (HitLocation - StartLocation) * 0.75f;
 	FCollisionResponseParams Params(ECollisionResponse::ECR_Block);
 	TArray<AActor*> ActorsToIgnore;
 	ActorsToIgnore.Emplace(GetOwner());
@@ -43,29 +47,37 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 				this,
 				OutLaunchVelocity,
 				StartLocation,
-				HitLocation,
+				EndLocation,
 				LaunchSpeed,
 				false,
 				0,
 				0,
-				ESuggestProjVelocityTraceOption::DoNotTrace
+				ESuggestProjVelocityTraceOption::TraceFullPath
 			);
-	if (bHaveAimSolution)
+
+	auto ZeroVector = FVector(0);
+
+	// test for aim solve AND non-zero hitlocation
+	if (bHaveAimSolution && (HitLocation.X != ZeroVector.X)) //TODO prevents hitting anything at X=0
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		
 		MoveBarrel(AimDirection);
+		MoveTurret(AimDirection);
 
 		auto Time = GetWorld()->GetTimeSeconds();
-		UE_LOG(LogTemp, Warning, TEXT("%f:  Aim solve found."), Time)
+		auto Tank = GetOwner()->GetName();
+		UE_LOG(LogTemp, Warning, TEXT("%f:  Aim solve found. (%s, reporing"), Time, *Tank)
 
 			
 	}	
 
-	else {
+	else 
+	{
 		auto Time = GetWorld()->GetTimeSeconds();
+		auto Tank = GetOwner()->GetName();
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal().ToString();
-		UE_LOG(LogTemp, Warning, TEXT("%f: Aim solve not found."), Time);
+		UE_LOG(LogTemp, Warning, TEXT("%f: Aim solve not found. (%s reporting"), Time, *Tank);
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *AimDirection);
 	}
 
@@ -88,10 +100,31 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection) const
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
 
+	
 	auto Time = GetWorld()->GetTimeSeconds();
 
 	
 	
 
 	Barrel->Elevate(DeltaRotator.Pitch);
+	
+	
+}
+
+void UTankAimingComponent::MoveTurret(FVector AimDirection)
+{
+	if (!Turret) 
+	{
+		return;
+	}
+
+	auto TurretRotation = Turret->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - TurretRotation;
+
+	Turret->Rotate(DeltaRotator.Yaw);
+
+
+	
+	return;
 }

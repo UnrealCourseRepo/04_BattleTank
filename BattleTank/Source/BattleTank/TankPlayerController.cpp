@@ -29,11 +29,10 @@ void ATankPlayerController::AimTowardsCrosshair()
 		
 
 		GetControlledTank()->AimAt(HitLocation);
-
 		
 	}
-	
 
+	
 	return;
 }
 

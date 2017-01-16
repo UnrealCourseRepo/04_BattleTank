@@ -30,7 +30,7 @@ AATank * ATankAIController::GetPlayerTank() const
 {
 	
 	AATank* PlayerTank = Cast<AATank>(GetWorld()->
-		GetFirstPlayerController()->GetPawn());
+		GetFirstPlayerController()->GetPawn()); // GetFirstPlayerController maybe isn't working for 2nd AI tank
 	if (!PlayerTank) { return nullptr; }
 
 	return PlayerTank;
