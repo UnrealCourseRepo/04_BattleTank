@@ -19,10 +19,10 @@ public:
 	void Elevate(float RelativeSpeed);
 
 	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxDegreesPerSecond = 5;  // sensible default value
+		float MaxDegreesPerSecond = 10;  // sensible default value
 
 	UPROPERTY(EditAnywhere, Category = Setup)
-		float MaxDegreesElevation = 40; // sensible default
+		float MaxDegreesElevation = 25; // sensible default
 
 	UPROPERTY(EditAnywhere, Category = Setup)
 		float MinDegreesElevation = 0;

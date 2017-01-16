@@ -15,6 +15,12 @@ void AATank::SetTurretReference(UTurret * TurretToSet)
 	TankAimingComponent->SetTurretReference(TurretToSet);
 }
 
+void AATank::Fire()
+{
+	auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("%f: firing..."), Time);
+}
+
 // Sets default values
 AATank::AATank()
 {

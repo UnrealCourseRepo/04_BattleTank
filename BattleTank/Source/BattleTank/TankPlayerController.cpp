@@ -91,11 +91,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector & HitLocation) const
 			LineTraceEnd, ECollisionChannel::ECC_Visibility))
 		{
 			HitLocation = HitResult.Location;
-			UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 			return true;
 		}
 		HitLocation = FVector(0);
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 		return false;
 
 
