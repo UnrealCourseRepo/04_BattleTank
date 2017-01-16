@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankPlayerController.h"
+#include "ATank.h"
 
 
 
@@ -25,7 +26,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; // OUT parameter
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		
 
 		GetControlledTank()->AimAt(HitLocation);
 

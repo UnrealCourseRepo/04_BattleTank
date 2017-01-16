@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "ATank.h"
+#include "TankAimingComponent.h"
 
 
 void AATank::SetBarrelReference(UTankBarrel * BarrelToSet)
@@ -13,7 +14,7 @@ void AATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 AATank::AATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
@@ -26,12 +27,7 @@ void AATank::BeginPlay()
 	
 }
 
-// Called every frame
-void AATank::Tick( float DeltaTime )
-{
-	Super::Tick( DeltaTime );
 
-}
 
 // Called to bind functionality to input
 void AATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
@@ -44,9 +40,6 @@ void AATank::AimAt(FVector HitLocation) const
 {
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 
-	/*UE_LOG(LogTemp, Warning, TEXT("AimAt(HitLocation) called...."));
-	auto OurTankName = GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *OurTankName, *HitLocation.ToString() )
-	*/
+	
 	return;
 }

@@ -19,12 +19,13 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 	
-	void AimAt(FVector HitLocation, float LaunchSpeed) const;
+	
+	void AimAt(FVector HitLocation, float LaunchSpeed);
 
 private:
 	
 	UTankBarrel* Barrel = nullptr;
 	void MoveBarrel(FVector AimDirection) const;
 
-		
+	
 };

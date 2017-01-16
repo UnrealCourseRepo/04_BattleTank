@@ -2,9 +2,11 @@
 
 #pragma once
 
-#include "ATank.h"
+
 #include "AIController.h"
 #include "TankAIController.generated.h"
+
+class AATank;
 
 /**
  * 
