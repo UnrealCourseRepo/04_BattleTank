@@ -9,6 +9,7 @@
 class UTankBarrel;
 class UTurret;
 class UTankAimingComponent;
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API AATank : public APawn
@@ -49,6 +50,10 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+	UPROPERTY(EditAnywhere, Category = Classes)
+		TSubclassOf<AProjectile> ProjectileBlueprint;
 
+	// need this to locate spawned projectiles
+	UTankBarrel* Barrel = nullptr;
 		
 };
