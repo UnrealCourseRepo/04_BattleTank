@@ -4,12 +4,14 @@
 #include "ATank.h"
 #include "TankAimingComponent.h"
 #include "Projectile.h"
+#include "TankBarrel.h"
 
 
 void AATank::SetBarrelReference(UTankBarrel * BarrelToSet)
 {
-	TankAimingComponent->SetBarrelReference(BarrelToSet);
+	TankAimingComponent->SetBarrelReference(BarrelToSet);		
 	Barrel = BarrelToSet;
+	
 }
 
 void AATank::SetTurretReference(UTurret * TurretToSet)
@@ -19,14 +21,17 @@ void AATank::SetTurretReference(UTurret * TurretToSet)
 
 void AATank::Fire()
 {
-	if (!Barrel) { return; }
-	else 
-	{
-		
-		GetWorld()->SpawnActor<AProjectile>()
-	}
+	if (!Barrel) 
+	{ return; }	
 	
 
+	/// this compiles but DOES NOT WORK
+	GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBlueprint,
+		Barrel->GetSocketLocation(FName("ProjectileEnd")),
+		Barrel->GetSocketRotation(FName("ProjectileEnd"))
+		);
+	
 }
 
 // Sets default values
