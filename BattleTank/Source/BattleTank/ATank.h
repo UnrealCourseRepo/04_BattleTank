@@ -29,8 +29,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Actions)
 		void Fire();
 
-	UPROPERTY(EditAnywhere, Category = "Firing")
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float LaunchSpeed = 4000.0f;
+
+	float ReloadTimeInSeconds = 3;
+
+	double LastFireTime = 0;
 
 	
 
@@ -52,7 +56,7 @@ private:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = Classes)
+	UPROPERTY(EditDefaultsOnly, Category = Classes)
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	// need this to locate spawned projectiles

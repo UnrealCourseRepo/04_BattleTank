@@ -12,43 +12,27 @@ void ATankAIController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-
-	auto TargetTankLocation = GetPlayerTank()->GetActorLocation();
-
-	GetControlledTank()->AimAt(TargetTankLocation);
-
+	auto TargetTank = Cast<AATank>(GetWorld()->
+		GetFirstPlayerController()->GetPawn());
 	
-
-}
-
-AATank* ATankAIController::GetControlledTank()
-{
-	return Cast<AATank>(GetPawn());
-}
-
-AATank * ATankAIController::GetPlayerTank() const
-{
+	if (!TargetTank) { return; }	
+	auto TargetTankLocation = TargetTank->GetActorLocation();
 	
-	AATank* PlayerTank = Cast<AATank>(GetWorld()->
-		GetFirstPlayerController()->GetPawn()); // GetFirstPlayerController maybe isn't working for 2nd AI tank
-	if (!PlayerTank) { return nullptr; }
+	auto ControlledTank = Cast<AATank>(GetPawn());
 
-	return PlayerTank;
+	if (!ControlledTank) { return; }
+	ControlledTank->AimAt(TargetTankLocation);
+
+	ControlledTank->Fire();
+
 }
+
+
 
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	AATank* ControlledAITank = nullptr;
-	ControlledAITank = GetControlledTank();
-
-	AATank* PlayerTank = GetPlayerTank();
-
-	if (!ControlledAITank)
-	{
-		return;
-	}
-
+	
 	
 }

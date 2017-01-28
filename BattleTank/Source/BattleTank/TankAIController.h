@@ -23,9 +23,6 @@ private:
 
 	virtual void Tick(float DeltaSeconds) override;
 
-	AATank* GetControlledTank();
-
-	AATank* GetPlayerTank() const;  // may return a null pointer
 	
 	
 };

@@ -21,18 +21,23 @@ void AATank::SetTurretReference(UTurret * TurretToSet)
 
 void AATank::Fire()
 {
-	if (!Barrel) 
-	{ return; }	
-
-		
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBlueprint,
-		Barrel->GetSocketLocation(FName("ProjectileEnd")),
-		Barrel->GetSocketRotation(FName("ProjectileEnd"))
-		);
-
-	Projectile->LaunchProjectile(LaunchSpeed);
 	
+	bool bIsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+
+	if (Barrel && bIsReloaded)
+	{
+
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+			ProjectileBlueprint,
+			Barrel->GetSocketLocation(FName("ProjectileEnd")),
+			Barrel->GetSocketRotation(FName("ProjectileEnd"))
+			);
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+
+		LastFireTime = FPlatformTime::Seconds();
+
+	}
 }
 
 // Sets default values
