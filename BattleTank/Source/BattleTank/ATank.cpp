@@ -23,14 +23,15 @@ void AATank::Fire()
 {
 	if (!Barrel) 
 	{ return; }	
-	
 
-	/// this compiles but DOES NOT WORK
-	GetWorld()->SpawnActor<AProjectile>(
+		
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileBlueprint,
 		Barrel->GetSocketLocation(FName("ProjectileEnd")),
 		Barrel->GetSocketRotation(FName("ProjectileEnd"))
 		);
+
+	Projectile->LaunchProjectile(LaunchSpeed);
 	
 }
 
