@@ -20,6 +20,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Movement)
 		void IntendForwardMove(float Throw);
 
+	UFUNCTION(BlueprintCallable, Category = Movement)
+		void IntendTurnRight(float Throw);
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetReferences(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
