@@ -20,7 +20,7 @@ public:
 		void SetThrottle(float Throttle);
 	
 	UPROPERTY(EditDefaultsOnly)
-		float MaxForce = 400000; // in Newtons; 40000kg tank; 1g acceleration
+		float MaxForce = 40000000; // in Newtons; 40000kg tank; 1g acceleration
 
 
 	
