@@ -18,6 +18,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void SetThrottle(float Throttle);
+	
+	UPROPERTY(EditDefaultsOnly)
+		float MaxForce = 400000; // in Newtons; 40000kg tank; 1g acceleration
+
 
 	
 };
